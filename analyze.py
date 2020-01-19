@@ -9,16 +9,15 @@ from tabulate import tabulate
 from stress import StressThread
 
 logger = logging.getLogger(__name__)
-MAX_RUNTIME_DURATION = 8
 
 
 class Analyze(Thread):
-    def __init__(self, num_of_threads):
+    def __init__(self, num_of_threads, max_stress_duration):
         super().__init__(name='Analyze task')
         self.result = {}
         self.block_threads_event = Event()
         self.semaphore = Semaphore()
-        runtime_duration_list = choices(range(1, MAX_RUNTIME_DURATION), k=num_of_threads)
+        runtime_duration_list = choices(range(1, max_stress_duration), k=num_of_threads)
         self.runtime_duration = max(runtime_duration_list) + 1
         self.start = None
         self.threads = []
